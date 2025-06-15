@@ -36,13 +36,15 @@ class JobOffer(db.Model):
     company: Mapped["Company"] = relationship(back_populates="job_offers")
     
     location: Mapped[str] = mapped_column()
-    status: Mapped["Status"]
+    status: Mapped[Status] = mapped_column()
     application_date: Mapped[date] = mapped_column(Date, nullable=False)
-    reminder_date: Mapped[Optional[date]] = mapped_column(Date)
+    reminder_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
 
     notes: Mapped[str] = mapped_column(Text)
     resume: Mapped[str] = mapped_column(String(255))
     application_letter: Mapped[str] = mapped_column(Text)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
